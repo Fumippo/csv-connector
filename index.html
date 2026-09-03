@@ -1,0 +1,446 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CSV Connector</title>
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --card: #ffffff;
+      --text: #172033;
+      --muted: #6b7280;
+      --line: #dfe4ec;
+      --accent: #2563eb;
+      --accent-soft: #eff6ff;
+      --danger: #b91c1c;
+      --ok: #047857;
+      --shadow: 0 12px 36px rgba(15, 23, 42, .08);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans JP", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+    .wrap { width: min(1180px, calc(100% - 32px)); margin: 42px auto 72px; }
+    h1 { margin: 0 0 8px; font-size: clamp(30px, 5vw, 46px); letter-spacing: -.03em; }
+    .lead { margin: 0 0 24px; color: var(--muted); }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      padding: 22px;
+      margin-bottom: 18px;
+    }
+    .drop {
+      border: 2px dashed #b8c4d8;
+      border-radius: 16px;
+      padding: 38px 18px;
+      text-align: center;
+      background: #fbfcff;
+      transition: .15s ease;
+      cursor: pointer;
+    }
+    .drop.drag { border-color: var(--accent); background: var(--accent-soft); }
+    .drop strong { display: block; font-size: 18px; margin-bottom: 8px; }
+    .drop span { color: var(--muted); font-size: 14px; }
+    input[type=file] { display: none; }
+    .toolbar { display: flex; flex-wrap: wrap; gap: 12px; align-items: end; margin-top: 18px; }
+    label.control { display: grid; gap: 6px; font-size: 13px; color: var(--muted); }
+    select, input[type=text] {
+      min-height: 40px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 0 12px;
+      background: #fff;
+      color: var(--text);
+    }
+    .check { display: flex; gap: 8px; align-items: center; min-height: 40px; font-size: 14px; color: var(--text); }
+    button {
+      border: 0;
+      border-radius: 11px;
+      padding: 11px 16px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    button.primary { background: var(--accent); color: #fff; }
+    button.secondary { background: #eef2f7; color: var(--text); }
+    button:disabled { opacity: .45; cursor: not-allowed; }
+    .stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin: 18px 0 0; }
+    .stat { padding: 14px; border-radius: 12px; background: #f8fafc; border: 1px solid #e8edf4; }
+    .stat .k { color: var(--muted); font-size: 12px; }
+    .stat .v { margin-top: 4px; font-size: 20px; font-weight: 800; }
+    .file-list { display: grid; gap: 10px; margin-top: 16px; }
+    .file-row {
+      display: grid;
+      grid-template-columns: 1.5fr .5fr 1fr auto;
+      gap: 12px;
+      align-items: center;
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      font-size: 14px;
+    }
+    .file-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 650; }
+    .muted { color: var(--muted); }
+    .ok { color: var(--ok); }
+    .bad { color: var(--danger); }
+    .table-wrap { overflow: auto; border: 1px solid var(--line); border-radius: 12px; max-height: 520px; }
+    table { border-collapse: collapse; width: max-content; min-width: 100%; font-size: 12px; }
+    th, td { padding: 8px 10px; border-bottom: 1px solid #edf0f4; white-space: nowrap; text-align: right; }
+    th { position: sticky; top: 0; z-index: 1; background: #f8fafc; text-align: center; }
+    td:first-child, th:first-child { text-align: left; }
+    .message { margin-top: 12px; padding: 11px 13px; border-radius: 10px; font-size: 14px; display: none; }
+    .message.show { display: block; }
+    .message.error { color: #991b1b; background: #fef2f2; border: 1px solid #fecaca; }
+    .message.success { color: #065f46; background: #ecfdf5; border: 1px solid #a7f3d0; }
+    .section-title { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 12px; }
+    .section-title h2 { margin: 0; font-size: 19px; }
+    .hidden { display: none !important; }
+    @media (max-width: 760px) {
+      .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .file-row { grid-template-columns: 1fr auto; }
+      .file-row .range { grid-column: 1 / -1; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <h1>CSV Connector</h1>
+    <p class="lead">複数のCSVをブラウザ内だけで結合。アップロードしたデータはサーバーへ送信しません。</p>
+
+    <section class="card">
+      <div id="dropZone" class="drop" tabindex="0" role="button" aria-label="CSVファイルを選択">
+        <strong>CSVをここへドロップ</strong>
+        <span>またはクリックして複数ファイルを選択</span>
+        <input id="fileInput" type="file" accept=".csv,text/csv" multiple />
+      </div>
+
+      <div class="toolbar">
+        <label class="control">文字コード
+          <select id="encoding">
+            <option value="utf-8" selected>UTF-8 / UTF-8 BOM</option>
+            <option value="shift-jis">Shift_JIS</option>
+          </select>
+        </label>
+        <label class="control">並べ替え列
+          <input id="sortColumn" type="text" value="日時" />
+        </label>
+        <label class="check"><input id="sortRows" type="checkbox" checked /> 日時順に並べ替える</label>
+        <label class="control">同一日時が重複した場合
+          <select id="duplicateMode">
+            <option value="keep-last" selected>後のファイルを残す</option>
+            <option value="keep-first">先のファイルを残す</option>
+            <option value="keep-all">すべて残す</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="toolbar">
+        <button id="mergeBtn" class="primary" disabled>CSVを結合</button>
+        <button id="clearBtn" class="secondary" disabled>すべて消す</button>
+      </div>
+      <div id="message" class="message"></div>
+
+      <div id="stats" class="stats hidden">
+        <div class="stat"><div class="k">ファイル数</div><div id="statFiles" class="v">0</div></div>
+        <div class="stat"><div class="k">読み込み行数</div><div id="statRows" class="v">0</div></div>
+        <div class="stat"><div class="k">列数</div><div id="statCols" class="v">0</div></div>
+        <div class="stat"><div class="k">結合後行数</div><div id="statMerged" class="v">-</div></div>
+      </div>
+
+      <div id="fileList" class="file-list"></div>
+    </section>
+
+    <section id="resultCard" class="card hidden">
+      <div class="section-title">
+        <h2>結合結果</h2>
+        <button id="downloadBtn" class="primary">merged.csv をダウンロード</button>
+      </div>
+      <p id="resultSummary" class="muted"></p>
+      <div class="table-wrap">
+        <table>
+          <thead id="previewHead"></thead>
+          <tbody id="previewBody"></tbody>
+        </table>
+      </div>
+      <p class="muted">プレビューは先頭100行まで表示します。ダウンロードCSVには全行が入ります。</p>
+    </section>
+  </main>
+
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const state = { files: [], parsed: [], merged: null, headers: [] };
+
+  const dropZone = $('dropZone');
+  const fileInput = $('fileInput');
+  const mergeBtn = $('mergeBtn');
+  const clearBtn = $('clearBtn');
+  const downloadBtn = $('downloadBtn');
+
+  dropZone.addEventListener('click', () => fileInput.click());
+  dropZone.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') fileInput.click();
+  });
+  ['dragenter','dragover'].forEach(type => dropZone.addEventListener(type, e => {
+    e.preventDefault(); dropZone.classList.add('drag');
+  }));
+  ['dragleave','drop'].forEach(type => dropZone.addEventListener(type, e => {
+    e.preventDefault(); dropZone.classList.remove('drag');
+  }));
+  dropZone.addEventListener('drop', e => handleFiles([...e.dataTransfer.files]));
+  fileInput.addEventListener('change', e => handleFiles([...e.target.files]));
+  mergeBtn.addEventListener('click', mergeFiles);
+  clearBtn.addEventListener('click', clearAll);
+  downloadBtn.addEventListener('click', downloadMerged);
+
+  async function handleFiles(files) {
+    const csvFiles = files.filter(f => f.name.toLowerCase().endsWith('.csv'));
+    if (!csvFiles.length) return showMessage('CSVファイルを選択してください。', 'error');
+
+    showMessage('読み込み中…', 'success');
+    const encoding = $('encoding').value;
+    const newlyParsed = [];
+
+    try {
+      for (const file of csvFiles) {
+        const buffer = await file.arrayBuffer();
+        let text = new TextDecoder(encoding).decode(buffer);
+        text = text.replace(/^\uFEFF/, '');
+        const rows = parseCSV(text);
+        if (!rows.length) throw new Error(`${file.name}: データがありません`);
+
+        const headers = rows[0].map(h => h.trim());
+        const data = rows.slice(1).filter(row => row.some(v => v !== ''));
+        newlyParsed.push({ file, headers, data });
+      }
+
+      const baseHeaders = state.parsed.length ? state.headers : newlyParsed[0].headers;
+      for (const item of newlyParsed) {
+        const missing = baseHeaders.filter(h => !item.headers.includes(h));
+        const extra = item.headers.filter(h => !baseHeaders.includes(h));
+        if (missing.length || extra.length) {
+          throw new Error(`${item.file.name}: 列構成が一致しません。不足: ${missing.join(', ') || 'なし'} / 余分: ${extra.join(', ') || 'なし'}`);
+        }
+        // 列順が違っても基準CSVの順番へ揃える
+        if (item.headers.join('\u0001') !== baseHeaders.join('\u0001')) {
+          const indexMap = baseHeaders.map(h => item.headers.indexOf(h));
+          item.data = item.data.map(row => indexMap.map(i => row[i] ?? ''));
+          item.headers = [...baseHeaders];
+        }
+      }
+
+      state.headers = [...baseHeaders];
+      state.files.push(...csvFiles);
+      state.parsed.push(...newlyParsed);
+      state.merged = null;
+      renderFiles();
+      updateStats();
+      $('resultCard').classList.add('hidden');
+      mergeBtn.disabled = false;
+      clearBtn.disabled = false;
+      showMessage(`${csvFiles.length}個のCSVを読み込みました。`, 'success');
+    } catch (err) {
+      showMessage(err.message || String(err), 'error');
+    } finally {
+      fileInput.value = '';
+    }
+  }
+
+  function mergeFiles() {
+    if (!state.parsed.length) return;
+    const headers = state.headers;
+    const sortColumn = $('sortColumn').value.trim();
+    const sortIndex = headers.indexOf(sortColumn);
+    const shouldSort = $('sortRows').checked;
+    const duplicateMode = $('duplicateMode').value;
+
+    if ((shouldSort || duplicateMode !== 'keep-all') && sortIndex < 0) {
+      return showMessage(`列「${sortColumn}」が見つかりません。`, 'error');
+    }
+
+    // 元のファイル順を保持しつつ結合
+    let combined = [];
+    state.parsed.forEach((item, fileOrder) => {
+      item.data.forEach((row, rowOrder) => {
+        const normalized = headers.map((_, i) => row[i] ?? '');
+        combined.push({ row: normalized, fileOrder, rowOrder });
+      });
+    });
+
+    const before = combined.length;
+    let removed = 0;
+
+    if (duplicateMode !== 'keep-all') {
+      const byKey = new Map();
+      for (const item of combined) {
+        const key = item.row[sortIndex];
+        if (key === '') {
+          byKey.set(`__blank__${item.fileOrder}_${item.rowOrder}`, item);
+          continue;
+        }
+        if (duplicateMode === 'keep-first') {
+          if (!byKey.has(key)) byKey.set(key, item);
+        } else {
+          byKey.set(key, item);
+        }
+      }
+      combined = [...byKey.values()];
+      removed = before - combined.length;
+    }
+
+    if (shouldSort) {
+      combined.sort((a, b) => compareDateLike(a.row[sortIndex], b.row[sortIndex]) || a.fileOrder - b.fileOrder || a.rowOrder - b.rowOrder);
+    }
+
+    state.merged = combined.map(x => x.row);
+    $('statMerged').textContent = state.merged.length.toLocaleString('ja-JP');
+    $('resultSummary').textContent = `${state.parsed.length}ファイルを結合 / ${state.merged.length.toLocaleString('ja-JP')}行 / 重複削除 ${removed.toLocaleString('ja-JP')}行`;
+    renderPreview();
+    $('resultCard').classList.remove('hidden');
+    showMessage(`結合完了。${removed ? `${removed}行の重複を処理しました。` : '重複はありませんでした。'}`, 'success');
+  }
+
+  function compareDateLike(a, b) {
+    const ta = parseJapaneseDateTime(a);
+    const tb = parseJapaneseDateTime(b);
+    if (Number.isFinite(ta) && Number.isFinite(tb)) return ta - tb;
+    return String(a).localeCompare(String(b), 'ja', { numeric: true });
+  }
+
+  function parseJapaneseDateTime(s) {
+    // 例: 2026/09/03 20:04, 2026-09-03 20:04:00
+    const m = String(s).trim().match(/^(\d{4})[\/-](\d{1,2})[\/-](\d{1,2})[ T](\d{1,2}):(\d{2})(?::(\d{2}))?$/);
+    if (!m) return NaN;
+    return new Date(+m[1], +m[2]-1, +m[3], +m[4], +m[5], +(m[6] || 0)).getTime();
+  }
+
+  function renderFiles() {
+    const sortColumn = $('sortColumn').value.trim() || '日時';
+    $('fileList').innerHTML = state.parsed.map((item, i) => {
+      const idx = item.headers.indexOf(sortColumn);
+      const values = idx >= 0 ? item.data.map(r => r[idx]).filter(Boolean) : [];
+      let range = '日時列なし';
+      if (values.length) {
+        const sorted = [...values].sort(compareDateLike);
+        range = `${escapeHTML(sorted[0])} ～ ${escapeHTML(sorted.at(-1))}`;
+      }
+      return `<div class="file-row">
+        <div class="file-name">${escapeHTML(item.file.name)}</div>
+        <div>${item.data.length.toLocaleString('ja-JP')}行</div>
+        <div class="range muted">${range}</div>
+        <button class="secondary" data-remove="${i}">削除</button>
+      </div>`;
+    }).join('');
+
+    document.querySelectorAll('[data-remove]').forEach(btn => btn.addEventListener('click', () => {
+      const i = Number(btn.dataset.remove);
+      state.parsed.splice(i, 1);
+      state.files.splice(i, 1);
+      state.merged = null;
+      if (!state.parsed.length) {
+        state.headers = [];
+        $('resultCard').classList.add('hidden');
+      }
+      renderFiles(); updateStats();
+      mergeBtn.disabled = !state.parsed.length;
+      clearBtn.disabled = !state.parsed.length;
+    }));
+  }
+
+  function updateStats() {
+    const totalRows = state.parsed.reduce((n, x) => n + x.data.length, 0);
+    $('stats').classList.toggle('hidden', !state.parsed.length);
+    $('statFiles').textContent = state.parsed.length.toLocaleString('ja-JP');
+    $('statRows').textContent = totalRows.toLocaleString('ja-JP');
+    $('statCols').textContent = state.headers.length.toLocaleString('ja-JP');
+    $('statMerged').textContent = state.merged ? state.merged.length.toLocaleString('ja-JP') : '-';
+  }
+
+  function renderPreview() {
+    $('previewHead').innerHTML = `<tr>${state.headers.map(h => `<th>${escapeHTML(h)}</th>`).join('')}</tr>`;
+    $('previewBody').innerHTML = state.merged.slice(0, 100).map(row =>
+      `<tr>${row.map(v => `<td>${escapeHTML(v)}</td>`).join('')}</tr>`
+    ).join('');
+  }
+
+  function downloadMerged() {
+    if (!state.merged) return;
+    const lines = [state.headers, ...state.merged].map(row => row.map(csvEscape).join(','));
+    const csv = '\uFEFF' + lines.join('\r\n'); // Excel向け UTF-8 BOM
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'merged.csv';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+
+  function clearAll() {
+    state.files = []; state.parsed = []; state.merged = null; state.headers = [];
+    $('fileList').innerHTML = '';
+    $('stats').classList.add('hidden');
+    $('resultCard').classList.add('hidden');
+    mergeBtn.disabled = true; clearBtn.disabled = true;
+    $('message').className = 'message'; $('message').textContent = '';
+  }
+
+  function showMessage(text, type) {
+    const el = $('message');
+    el.textContent = text;
+    el.className = `message show ${type}`;
+  }
+
+  function csvEscape(value) {
+    const s = String(value ?? '');
+    return /[",\r\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+  }
+
+  function escapeHTML(value) {
+    return String(value ?? '')
+      .replaceAll('&', '&amp;')
+      .replaceAll('<', '&lt;')
+      .replaceAll('>', '&gt;')
+      .replaceAll('"', '&quot;')
+      .replaceAll("'", '&#039;');
+  }
+
+  // RFC4180系のCSVを扱う簡易パーサー（引用符内のカンマ・改行・""をサポート）
+  function parseCSV(text) {
+    const rows = [];
+    let row = [], field = '', quoted = false;
+
+    for (let i = 0; i < text.length; i++) {
+      const c = text[i];
+      if (quoted) {
+        if (c === '"') {
+          if (text[i + 1] === '"') { field += '"'; i++; }
+          else quoted = false;
+        } else field += c;
+      } else {
+        if (c === '"') quoted = true;
+        else if (c === ',') { row.push(field); field = ''; }
+        else if (c === '\n') {
+          row.push(field.replace(/\r$/, ''));
+          rows.push(row);
+          row = []; field = '';
+        } else field += c;
+      }
+    }
+    if (field.length || row.length) {
+      row.push(field.replace(/\r$/, ''));
+      rows.push(row);
+    }
+    return rows;
+  }
+})();
+</script>
+</body>
+</html>
