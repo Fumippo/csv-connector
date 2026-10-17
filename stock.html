@@ -8,7 +8,13 @@
 :root{color-scheme:dark;--bg:#09111e;--panel:#121f30;--edge:#294056;--fg:#e8f1f9;--muted:#a3b9cc;--mint:#5ee0b6;--blue:#75b9ff;--red:#ffa2a6;--amber:#ffca7f}
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse 90% 45% at 50% 0,#193453 0%,#09111e 72%);color:var(--fg);font:15px/1.65 system-ui,-apple-system,"Yu Gothic",Meiryo,sans-serif}
 main{max-width:1190px;margin:auto;padding:30px 18px 70px}header{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:24px}h1{margin:4px 0 8px;font-size:clamp(25px,4vw,38px);letter-spacing:.015em}h2{font-size:19px;margin:0 0 12px}p{margin:6px 0 12px}.subtitle{color:var(--muted)}.badge{color:var(--mint);border:1px solid #3a776c;background:#143b3c;border-radius:50px;padding:8px 14px;white-space:nowrap;font-size:13px}.grid{display:grid;grid-template-columns:1.2fr .8fr;gap:18px}.panel{background:linear-gradient(150deg,#17293d,#101c2c);border:1px solid var(--edge);border-radius:15px;padding:21px;margin-bottom:18px;box-shadow:0 14px 32px #02081429}
-.label{font-weight:700;margin-bottom:8px}textarea{display:block;width:100%;min-height:370px;resize:vertical;border:1px solid #456078;border-radius:9px;background:#091522;color:#eef7ff;padding:14px;font-size:13px;line-height:1.7;font-family:ui-monospace,Consolas,Monaco,monospace;outline:none;tab-size:2}textarea:focus{border-color:var(--blue)}textarea::placeholder{color:#718da5}.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:13px}button,.fileLabel{border:1px solid #49718b;background:#203b56;color:var(--fg);padding:10px 15px;border-radius:9px;cursor:pointer;font-size:14px;font-weight:700;transition:filter .15s;display:inline-block}button:hover,.fileLabel:hover{filter:brightness(1.15)}button.primary{background:linear-gradient(100deg,#37bea2,#268eb6);color:#041827;border-color:transparent}button:disabled{opacity:.38;cursor:not-allowed}input[type=file]{position:absolute;left:-9999px}.mini{color:var(--muted);font-size:13px}.config{display:flex;gap:12px;align-items:center;flex-wrap:wrap}.config label{display:flex;align-items:center;gap:6px;white-space:nowrap}select{background:#091b2e;color:var(--fg);border:1px solid #3d607e;border-radius:8px;padding:7px;font-size:14px}.status{white-space:pre-wrap;padding:12px;border-radius:9px;background:#0a1727;border:1px solid #31485f;margin-top:13px;min-height:50px}.status.success{color:#9af1d4;border-color:#317f6b}.status.fail{color:var(--red);border-color:#8f4854}.summary{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.card{background:#0a1829;border:1px solid #26445f;border-radius:9px;padding:13px}.card .k{font-size:12px;color:var(--muted)}.card .v{font-size:21px;font-weight:800;margin-top:3px;font-variant-numeric:tabular-nums}.card .v.small{font-size:14px}.warns{margin-top:12px;white-space:pre-wrap;max-height:180px;overflow:auto;font-size:13px;color:var(--amber);background:#37271740;border-radius:8px;padding:10px}.previewwrap{overflow:auto;max-height:450px;border:1px solid var(--edge);border-radius:10px}table{border-collapse:collapse;font-size:12px;width:100%;white-space:nowrap;font-variant-numeric:tabular-nums}th,td{padding:9px 10px;border-bottom:1px solid #284055;text-align:right}th:first-child,td:first-child{text-align:left}th{position:sticky;top:0;background:#20374e;color:#cfe9ff}tr:hover{background:#1a3247}.howto{line-height:1.85;color:#c9d8e6}.howto strong{color:var(--mint)}.code{display:block;color:#a5d5fa;font-family:ui-monospace,Consolas,monospace;font-size:12px;word-break:break-all;background:#071522;border:1px solid #263f52;border-radius:7px;padding:10px;margin-top:8px}#drop{border:1px dashed #6285a2;border-radius:9px;padding:12px;text-align:center;color:var(--muted);margin-top:13px}#drop.over{background:#214a57;border-color:var(--mint)}.bottom{margin-top:7px}.privacy{font-size:13px;color:#b5d9d1}.hint{font-size:13px;color:#a9bece;margin-top:10px}@media(max-width:850px){.grid{grid-template-columns:1fr}.summary{grid-template-columns:1fr 1fr}main{padding:18px 10px}textarea{min-height:285px}}@media(max-width:380px){.summary{grid-template-columns:1fr}}
+.label{font-weight:700;margin-bottom:8px}textarea{display:block;width:100%;min-height:370px;resize:vertical;border:1px solid #456078;border-radius:9px;background:#091522;color:#eef7ff;padding:14px;font-size:13px;line-height:1.7;font-family:ui-monospace,Consolas,Monaco,monospace;outline:none;tab-size:2}textarea:focus{border-color:var(--blue)}textarea::placeholder{color:#718da5}.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:13px}button,.fileLabel{border:1px solid #49718b;background:#203b56;color:var(--fg);padding:10px 15px;border-radius:9px;cursor:pointer;font-size:14px;font-weight:700;transition:filter .15s;display:inline-block}button:hover,.fileLabel:hover{filter:brightness(1.15)}button.primary{background:linear-gradient(100deg,#37bea2,#268eb6);color:#041827;border-color:transparent}button:disabled{opacity:.38;cursor:not-allowed}input[type=file]{position:absolute;left:-9999px}.mini{color:var(--muted);font-size:13px}.config{display:flex;gap:12px;align-items:center;flex-wrap:wrap}.config label{display:flex;align-items:center;gap:6px;white-space:nowrap}select{background:#091b2e;color:var(--fg);border:1px solid #3d607e;border-radius:8px;padding:7px;font-size:14px}
+.symbols{display:grid;grid-template-columns:minmax(120px,1fr) minmax(170px,2fr);gap:12px;margin-top:15px;padding:14px;background:#0a1929;border:1px solid #385a73;border-radius:11px}
+.symbols label{display:grid;gap:5px;font-size:13px;font-weight:700;color:#d4e7f7}
+.symbols input{min-width:0;width:100%;font-size:15px;padding:10px;border-radius:8px;background:#061421;color:#f6faff;border:1px solid #557d9b}
+.symbols input:focus{outline:2px solid #75b9ff}
+.filename-preview{border:1px solid #395971;background:#0c2032;padding:10px;border-radius:8px;margin-top:9px;font:13px/1.6 ui-monospace,Consolas,monospace;overflow-wrap:anywhere;color:#aeeddc}
+@media(max-width:520px){.symbols{grid-template-columns:1fr}}.status{white-space:pre-wrap;padding:12px;border-radius:9px;background:#0a1727;border:1px solid #31485f;margin-top:13px;min-height:50px}.status.success{color:#9af1d4;border-color:#317f6b}.status.fail{color:var(--red);border-color:#8f4854}.summary{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.card{background:#0a1829;border:1px solid #26445f;border-radius:9px;padding:13px}.card .k{font-size:12px;color:var(--muted)}.card .v{font-size:21px;font-weight:800;margin-top:3px;font-variant-numeric:tabular-nums}.card .v.small{font-size:14px}.warns{margin-top:12px;white-space:pre-wrap;max-height:180px;overflow:auto;font-size:13px;color:var(--amber);background:#37271740;border-radius:8px;padding:10px}.previewwrap{overflow:auto;max-height:450px;border:1px solid var(--edge);border-radius:10px}table{border-collapse:collapse;font-size:12px;width:100%;white-space:nowrap;font-variant-numeric:tabular-nums}th,td{padding:9px 10px;border-bottom:1px solid #284055;text-align:right}th:first-child,td:first-child{text-align:left}th{position:sticky;top:0;background:#20374e;color:#cfe9ff}tr:hover{background:#1a3247}.howto{line-height:1.85;color:#c9d8e6}.howto strong{color:var(--mint)}.code{display:block;color:#a5d5fa;font-family:ui-monospace,Consolas,monospace;font-size:12px;word-break:break-all;background:#071522;border:1px solid #263f52;border-radius:7px;padding:10px;margin-top:8px}#drop{border:1px dashed #6285a2;border-radius:9px;padding:12px;text-align:center;color:var(--muted);margin-top:13px}#drop.over{background:#214a57;border-color:var(--mint)}.bottom{margin-top:7px}.privacy{font-size:13px;color:#b5d9d1}.hint{font-size:13px;color:#a9bece;margin-top:10px}@media(max-width:850px){.grid{grid-template-columns:1fr}.summary{grid-template-columns:1fr 1fr}main{padding:18px 10px}textarea{min-height:285px}}@media(max-width:380px){.summary{grid-template-columns:1fr}}
 
 .mergebox{margin-top:15px;padding:15px;border:1px solid #385a73;border-radius:11px;background:#0a1929}
 .mergebox h3{font-size:15px;margin:0 0 5px;color:#d9f6ff}
@@ -37,9 +43,15 @@ main{max-width:1190px;margin:auto;padding:30px 18px 70px}header{display:flex;ali
  <p class="warninline">⚠ 1回の結合は同一銘柄のデータを前提とします。銘柄が異なっても同じ日付だと重複扱いになるため、異なる銘柄は混ぜないでください。</p>
 </div>
 <div class="status" id="status" role="status">データを貼り付けて「CSVに変換する」を押してください。</div>
+<div class="symbols" aria-label="CSVファイルの銘柄情報">
+  <label>銘柄コード <input id="tickerCode" type="text" inputmode="text" autocomplete="off" placeholder="例：6857" maxlength="24"></label>
+  <label>銘柄名 <input id="tickerName" type="text" autocomplete="off" placeholder="例：アドバンテスト" maxlength="80"></label>
+  <div style="grid-column:1/-1" class="mini">株価表の7列には銘柄コードがないため、貼り付けの場合はここに入力してください。少なくとも片方は必須です。既存のCSVから読み込んだ場合はファイル名からの補完も試みます。</div>
+</div>
+<div class="filename-preview" role="status" id="filenamePreview">保存ファイル名：銘柄コードまたは銘柄名を入力してください</div>
 <div class="config" style="margin-top:14px"><label>出力順 <select id="order"><option value="asc">古い日付 → 新しい日付（推奨）</option><option value="desc">新しい日付 → 古い日付</option></select></label><label>列数 <select id="columns"><option value="7">7列：調整後終値あり（推奨）</option><option value="6">6列：調整後終値なし</option></select></label></div>
 <div class="row"><button class="primary" id="download" disabled>⬇ CSVをダウンロード</button><button id="copy" disabled>CSVをコピー</button></div>
-<p class="hint">CSVはUTF-8（BOM付き）で保存。Excelでも開きやすく、既存の売買検証HTMLにも対応します。</p>
+<p class="hint">CSVはUTF-8（BOM付き）で保存。名前は「銘柄コード_銘柄名_開始日_終了日.csv」。銘柄情報はファイル名のみで、既存の売買検証HTMLで使うCSVの列構成は変更しません。</p>
 </section>
 <div><section class="panel"><h2>02　変換結果</h2><div class="summary"><div class="card"><div class="k">取り込み営業日数</div><div class="v" id="count">—</div></div><div class="card"><div class="k">期間</div><div class="v small" id="period">—</div></div><div class="card"><div class="k">同一内容の重複</div><div class="v" id="dupes">—</div></div><div class="card"><div class="k">読み飛ばした行</div><div class="v" id="skips">—</div></div></div><div class="warns" id="warnings" hidden></div></section>
 <section class="panel"><h2>使い方</h2><div class="howto">① 株価サイトの日足を貼り付け、または複数のCSV・TXTを選ぶ<br>② 必要なら重複時の扱いを選ぶ<br>③ <strong>「CSVに変換・結合」</strong>を押す<br>④ 件数・日付・警告を確認<br>⑤ 結合済みCSVをダウンロードし、売買検証ツールで読み込む</div><p class="mini bottom">Webサイトからのタブ区切り、通常のCSVヘッダー付き形式、UTF-8・Shift_JISに対応。重複は一致なら自動統合、不一致なら初期設定では停止します。</p><span class="code">date,open,high,low,close,volume,adjusted_close</span></section>
@@ -54,6 +66,45 @@ const HEADER=['date','open','high','low','close','volume','adjusted_close'];
 const dateRx=/^(\d{4})[-/.年](\d{1,2})[-/.月](\d{1,2})(?:日)?$/;
 const files=[]; // {name,text,size} を選択順に保持
 let current=[],csvText='';
+// 保存ファイル名は銘柄コード・銘柄名・データ期間で組み立てる。
+// Windows/macOSで使えないファイル名記号や制御文字は取り除く。
+function cleanFilePart(s){return String(s||'').normalize('NFKC').replace(/[\\/:*?"<>|\x00-\x1f\x7f]/g,'_').replace(/[. ]+$/g,'').trim().replace(/\s+/g,'_').slice(0,70);}
+function getStockIdentity(){return {code:cleanFilePart($('tickerCode').value),name:cleanFilePart($('tickerName').value)};}
+function buildOutputFilename(){
+ const {code,name}=getStockIdentity();
+ if(!code&&!name)return null;
+ const start=current.length?current[0].date:'YYYY-MM-DD';
+ const end=current.length?current.at(-1).date:'YYYY-MM-DD';
+ return [code,name,start,end].filter(Boolean).join('_')+'.csv';
+}
+function updateFilenamePreview(){
+ const filename=buildOutputFilename();
+ $('filenamePreview').textContent=filename?`保存ファイル名：${filename}`:'保存ファイル名：銘柄コードまたは銘柄名を入力してください';
+}
+// 過去に本ツールで作った 6857_アドバンテスト_2022-..._2026-....csv は自動識別。
+// 元の株価表には銘柄情報がないので、価格の大小から銘柄を「推測」することはしない。
+function identityFromFilename(filename){
+ const name=String(filename).replace(/\.(csv|txt)$/i,'');
+ const m=name.match(/^([0-9]{4}|[0-9]{3}[A-Z])_(.+?)_\d{4}-\d{2}-\d{2}_\d{4}-\d{2}-\d{2}$/i);
+ if(m){return {code:m[1].toUpperCase(),name:m[2]};}
+ const prefix=name.match(/^([0-9]{4}|[0-9]{3}[A-Z])(?:_|$)/i);
+ if(prefix && !/^(19|20)\d{2}$/.test(prefix[1])) return {code:prefix[1].toUpperCase(),name:''};
+ return null;
+}
+function fillIdentityFromFiles(incomingNames){
+ const ids=incomingNames.map(identityFromFilename).filter(Boolean);
+ if(!ids.length)return;
+ const codes=[...new Set(ids.map(x=>x.code))];
+ if(codes.length>1)throw Error('異なる銘柄コードのファイルが混在しています：'+codes.join(', ')+'。銘柄ごとに別々に変換してください。');
+ const entered=$('tickerCode').value.trim();
+ if(entered && entered!==codes[0])throw Error(`銘柄コードの入力「${entered}」と読み込むファイル「${codes[0]}」が一致しません。`);
+ if(!entered)$('tickerCode').value=codes[0];
+ const names=[...new Set(ids.map(x=>x.name).filter(Boolean))];
+ if(names.length===1 && !$('tickerName').value.trim())$('tickerName').value=names[0];
+ updateFilenamePreview();
+}
+$('tickerCode').addEventListener('input',updateFilenamePreview);
+$('tickerName').addEventListener('input',updateFilenamePreview);
 function normalizeDate(y,m,d){
   const yr=+y,mo=+m,day=+d,dt=new Date(Date.UTC(yr,mo-1,day));
   if(yr<1900||yr>2100||dt.getUTCFullYear()!==yr||dt.getUTCMonth()!==mo-1||dt.getUTCDate()!==day)return null;
@@ -162,6 +213,7 @@ function resetResults(){
  ['count','period','dupes','skips'].forEach(k=>$(k).textContent='—');
  $('warnings').hidden=true;$('warnings').textContent='';
  $('preview').innerHTML='<tr><td colspan="7">まだデータはありません。</td></tr>';
+ updateFilenamePreview();
 }
 function render(rows){
  const keys=$('columns').value==='6'?HEADER.slice(0,6):HEADER;
@@ -191,6 +243,7 @@ function run(){
    return;
  }
  current=result.rows;csvText=makeCsv(current);
+ updateFilenamePreview();
  $('download').disabled=false;$('copy').disabled=false;
  $('count').textContent=current.length.toLocaleString('ja-JP');
  $('period').textContent=`${current[0].date} ～ ${current.at(-1).date}`;
@@ -220,7 +273,13 @@ function save(filename,txt){
  const url=URL.createObjectURL(blob),a=document.createElement('a');
  a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),5000);
 }
-$('download').onclick=()=>{if(!current.length)return;csvText=makeCsv(current);save(`stock_${current[0].date}_${current.at(-1).date}.csv`,csvText);};
+$('download').onclick=()=>{
+ if(!current.length)return;
+ const filename=buildOutputFilename();
+ if(!filename){setStatus('CSV保存前に「銘柄コード」または「銘柄名」を入力してください。株価の数値だけでは銘柄は判別できません。','fail');$('tickerCode').focus();return;}
+ csvText=makeCsv(current);save(filename,csvText);
+ setStatus(`✓ ${filename} をダウンロードしました。`,`success`);
+};
 $('copy').onclick=async()=>{
  if(!current.length)return;csvText=makeCsv(current).replace(/^\uFEFF/,'');
  try{await navigator.clipboard.writeText(csvText);setStatus('✓ CSVテキストをコピーしました。','success');}
@@ -239,9 +298,10 @@ async function addFiles(inputFiles){
      catch(e){txt=new TextDecoder('shift_jis',{fatal:true}).decode(buffer);}
      files.push({name:file.name,text:txt.replace(/^\uFEFF/,''),size:file.size});added++;
    }
+   fillIdentityFromFiles(files.map(f=>f.name));
    renderFileList();resetResults();
    setStatus(`✓ ${added}ファイルを結合候補に追加しました。現在${files.length}ファイル。内容の確認後「CSVに変換・結合」を押してください。`,'success');
- }catch(e){renderFileList();resetResults();setStatus(`ファイルの読込に失敗しました：${e.message}`,'fail');}
+ }catch(e){files.splice(files.length-added,added);renderFileList();resetResults();setStatus(`ファイルの読込に失敗しました：${e.message}`,'fail');}
 }
 $('file').onchange=async e=>{await addFiles(e.target.files);e.target.value='';};
 const drop=$('drop');
@@ -249,6 +309,7 @@ drop.ondragover=e=>{e.preventDefault();drop.classList.add('over');};
 drop.ondragleave=()=>drop.classList.remove('over');
 drop.ondrop=async e=>{e.preventDefault();drop.classList.remove('over');await addFiles(e.dataTransfer.files);};
 // テスト用にパーサーおよび結合器を公開
-window.StockCsvConverter={parseLine,parseCsvFields,convertRaw,convertSources,makeCsv};
+window.StockCsvConverter={parseLine,parseCsvFields,convertRaw,convertSources,makeCsv,buildOutputFilename,identityFromFilename};
+updateFilenamePreview();
 </script>
 </body></html>
